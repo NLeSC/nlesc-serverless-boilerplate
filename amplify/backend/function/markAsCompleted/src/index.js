@@ -16,31 +16,40 @@ exports.handler = async function (event, context) { //eslint-disable-line
   const todoId = event.arguments.todoId;
   const table = 'Todo-' + process.env.API_NLESC_GRAPHQLAPIIDOUTPUT + '-' + process.env.ENV;
 
+  console.info('Fetch todo item: ' + todoId + ' from table ' + table);
   const todo = await dynamodb.getItem({
     TableName: table,
     Key: { id: { S: todoId } },
     AttributesToGet: ['name', 'completed']
   }).promise();
 
-  const isCompleted = !todo.Item.completed.B;
+  console.info(todo);
+
+  const isCompleted = todo.Item.completed.BOOL;
   // Only mark as completed when incomplete
   if (!isCompleted) {
     const value = {
-      'B': true
+      'BOOL': true
     };
     try {
-      await dynamodb.updateItem({
+      const result = await dynamodb.updateItem({
         TableName: table,
         Key: { id: { S: todoId } },
         UpdateExpression: 'SET #B = :b',
         ExpressionAttributeNames: { "#B": "completed" },
         ExpressionAttributeValues: { ":b": value }
       }).promise();
+      console.info(result);
     } catch (error) {
+      console.info('failure');
+      console.info(error);
+
       context.done(error, null); // Failure with message
     }
+    console.info('Marked as completed');
     context.done(null, todoId); // SUCCESS with message
   } else {
+    console.info('Already marked as completed');
     context.done(null, undefined); // SUCCESS with message
   }
 };

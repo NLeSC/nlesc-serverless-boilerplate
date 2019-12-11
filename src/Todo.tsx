@@ -11,7 +11,7 @@ interface IProps {
 
 export const Todo = ({ todo }: IProps) => {
     async function complete() {
-        await API.graphql(graphqlOperation(markAsCompleted, { input: todo.id }));
+        await API.graphql(graphqlOperation(markAsCompleted, { todoId: todo.id }));
     }
 
     return (

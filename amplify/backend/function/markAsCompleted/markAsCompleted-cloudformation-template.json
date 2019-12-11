@@ -77,7 +77,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "nlesc-master-20191211141257-deployment",
-					"S3Key": "amplify-builds/markAsCompleted-545265662b73334e3535-build.zip"
+					"S3Key": "amplify-builds/markAsCompleted-5a7858495879627a7042-build.zip"
 				}
 			}
 		},
@@ -203,6 +203,38 @@
 												"Ref": "apinlescGraphQLAPIIdOutput"
 											},
 											"/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:GetItem",
+								"dynamodb:UpdateItem"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/Todo-",
+											{
+												"Ref": "apinlescGraphQLAPIIdOutput"
+											},
+											"-",
+											{
+												"Ref": "env"
+											}
 										]
 									]
 								}
