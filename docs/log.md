@@ -205,6 +205,12 @@ Api category has a resource called nlesc
 ? Select the operations you want to permit for nlesc read, update
 ```
 
+### Add markAsCompleted mutation to Graphql
+
+
+
+### Add markAllAsCompleted lambda
+
 
 ### Add todoCounter lambda
 

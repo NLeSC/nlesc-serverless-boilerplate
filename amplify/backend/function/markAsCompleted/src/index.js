@@ -7,9 +7,25 @@ var apiNlescGraphQLAPIEndpointOutput = process.env.API_NLESC_GRAPHQLAPIENDPOINTO
 
 Amplify Params - DO NOT EDIT */
 
-exports.handler = function (event, context) { //eslint-disable-line
-  console.log(`value1 = ${event.key1}`);
-  console.log(`value2 = ${event.key2}`);
-  console.log(`value3 = ${event.key3}`);
-  context.done(null, 'Hello World'); // SUCCESS with message
+const AWS = require('aws-sdk');
+// const S3 = new AWS.S3({ signatureVersion: 'v4' });
+const dynamodb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
+
+exports.handler = async function (event, context) { //eslint-disable-line
+
+  const todoId = event.arguments.todoId;
+  const table = 'Todo-' + process.env.API_NLESC_GRAPHQLAPIIDOUTPUT + '-' + process.env.ENV;
+
+  const completed = {
+    'B': true
+  };
+  await dynamodb.updateItem({
+    TableName: table,
+    Key: { id: { S: todoId } },
+    UpdateExpression: 'SET #B = :b',
+    ExpressionAttributeNames: { "#B": "completed" },
+    ExpressionAttributeValues: { ":b": completed }
+  }).promise();
+
+  context.done(null, todoId); // SUCCESS with message
 };
