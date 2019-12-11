@@ -190,3 +190,22 @@ Your app is published successfully.
 http://nlesc-serverless-boilerplate-master.s3-website.eu-central-1.amazonaws.com
 ```
 
+### Add markAsCompleted lambda
+
+Using Javascript
+
+```sh
+amplify function add
+```
+
+
+### Add todoCounter lambda
+
+Using Python
+
+```sh
+amplify function add
+```
+
+### Add todoCounter query to Graphql
+

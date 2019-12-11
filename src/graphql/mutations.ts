@@ -9,6 +9,7 @@ export const createTodo = `mutation CreateTodo(
     id
     name
     description
+    completed
   }
 }
 `;
@@ -20,6 +21,7 @@ export const updateTodo = `mutation UpdateTodo(
     id
     name
     description
+    completed
   }
 }
 `;
@@ -31,6 +33,7 @@ export const deleteTodo = `mutation DeleteTodo(
     id
     name
     description
+    completed
   }
 }
 `;

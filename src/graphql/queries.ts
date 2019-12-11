@@ -6,6 +6,7 @@ export const getTodo = `query GetTodo($id: ID!) {
     id
     name
     description
+    completed
   }
 }
 `;
@@ -19,6 +20,7 @@ export const listTodos = `query ListTodos(
       id
       name
       description
+      completed
     }
     nextToken
   }

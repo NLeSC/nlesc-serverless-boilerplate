@@ -19,7 +19,7 @@ PubSub.configure(awsconfig);
 type Todo = CreateTodoInput;
 
 async function createNewTodo() {
-  const todo = { name: "Use AWS AppSync", description: "Realtime and Offline" };
+  const todo = { name: "Use AWS AppSync", description: "Realtime and Offline", completed: false };
   await API.graphql(graphqlOperation(createTodo, { input: todo }));
 }
 
@@ -43,7 +43,7 @@ function App() {
       <button onClick={createNewTodo}>Add Todo</button>
       <div>
         {todos.length > 0 ?
-          todos.map((todo) => <p key={todo.id!}>{todo.name} : {todo.description}</p>) :
+          todos.map((todo) => <p key={todo.id!}>{todo.name} : {todo.description} {todo.completed ? 'Completed': 'Incomplete'}</p>) :
           <p>Add some todos!</p>
         }
       </div>
