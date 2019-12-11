@@ -151,3 +151,42 @@ Results in
   }
 }
 ```
+
+### Host the app
+
+Create S3 bucket for hosting
+```sh
+amplify add hosting
+? Select the environment setup: DEV (S3 only with HTTP)
+? hosting bucket name nlesc-serverless-boilerplate
+? index doc for the website index.html
+? error doc for the website index.html
+
+You can now publish your app using the following command:
+Command: amplify publish
+```
+
+### Publish app
+
+```sh
+amplify publish
+✔ Successfully pulled backend environment master from the cloud.
+
+Current Environment: master
+
+| Category | Resource name   | Operation | Provider plugin   |
+| -------- | --------------- | --------- | ----------------- |
+| Hosting  | S3AndCloudFront | Create    | awscloudformation |
+| Auth     | nlesc8d53e119   | No Change | awscloudformation |
+| Api      | nlesc           | No Change | awscloudformation |
+? Are you sure you want to continue? Yes
+
+...
+
+Done in 37.05s.
+frontend build command exited with code 0
+✔ Uploaded files successfully.
+Your app is published successfully.
+http://nlesc-serverless-boilerplate-master.s3-website.eu-central-1.amazonaws.com
+```
+
