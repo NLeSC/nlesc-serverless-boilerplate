@@ -63,3 +63,23 @@ This would update/create the AWS Profile in your local machine
 
 Successfully set up the new user.
 ```
+
+To start when there are local amplify resources, but none in cloud with the amplify environment suffix.
+
+```sh
+amplify env add
+# Asks for new environment name
+```
+
+To use current deployed amplify environment in the cloud
+
+```sh
+amplify env pull
+```
+
+To start when there are no local or cloud amplify resources (not the case for this boilerplate repo).
+
+```sh
+amplify init
+```
+The amplify resources that we made are logged in [docs/log.md](docs/log.md)
