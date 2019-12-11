@@ -19,3 +19,47 @@ This will run tests of frontend code.
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
+
+## Backend
+
+Requirements: 
+* nodejs, tested with v12.13.1
+* yarn, NodeJS package manager
+* Docker, used for building batch job Docker image
+* aws cli (pip install awscli)
+* AWS account
+
+Install amplify cli with
+
+```sh
+npm install -g @aws-amplify/cli
+```
+
+Amplify cli needs to be installed globally, to not pollute your env we suggest to use [nvm](https://github.com/nvm-sh/nvm) to isolate the node env.
+
+Initialize amplify with
+
+```sh
+amplify configure
+Follow these steps to set up access to your AWS account:
+
+Sign in to your AWS administrator account:
+https://console.aws.amazon.com/
+Press Enter to continue
+
+Specify the AWS Region
+? region:  eu-central-1
+Specify the username of the new IAM user:
+? user name:  amplify-********
+Complete the user creation using the AWS console
+https://console.aws.amazon.com/iam/home?region=undefined#/users$new?step=final&accessKey&userNames=amplify-**********&permissionType=policies&policies=arn:aws:iam::aws:policy%2FAdministratorAccess
+Press Enter to continue
+
+Enter the access key of the newly created user:
+? accessKeyId:   **********
+? secretAccessKey:  **********
+This would update/create the AWS Profile in your local machine
+? Profile Name:  boiler
+
+Successfully set up the new user.
+```
