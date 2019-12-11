@@ -162,6 +162,8 @@ Resources:
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
         ExternalId: nlesc8d53e119_role_external_id
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
     
   
   UserPoolClientWeb:
