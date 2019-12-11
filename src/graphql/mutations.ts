@@ -1,6 +1,10 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
+export const markAsCompleted = `mutation MarkAsCompleted($todoId: ID!) {
+  markAsCompleted(todoId: $todoId)
+}
+`;
 export const createTodo = `mutation CreateTodo(
   $input: CreateTodoInput!
   $condition: ModelTodoConditionInput

@@ -1,3 +1,7 @@
+type Mutation {
+  markAsCompleted(todoId: ID!): ID @function(name: "nlesc-markAsCompleted-${env}")
+}
+
 type Todo @model {
   id: ID!
   name: String!

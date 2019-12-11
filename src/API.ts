@@ -101,6 +101,14 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type MarkAsCompletedMutationVariables = {
+  todoId: string,
+};
+
+export type MarkAsCompletedMutation = {
+  markAsCompleted: string | null,
+};
+
 export type CreateTodoMutationVariables = {
   input: CreateTodoInput,
   condition?: ModelTodoConditionInput | null,

@@ -207,7 +207,17 @@ Api category has a resource called nlesc
 
 ### Add markAsCompleted mutation to Graphql
 
+To `amplify/backend/api/nlesc/schema.graphql` added
+```graphql
+type Mutation {
+  markAsCompleted(todoId: ID!): ID @function(name: "nlesc-markAsCompleted-${env}")
+}
+```
 
+Update Graphql api with
+```sh
+amplify push
+```
 
 ### Add markAllAsCompleted lambda
 

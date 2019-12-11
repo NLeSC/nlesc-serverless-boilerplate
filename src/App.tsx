@@ -8,15 +8,14 @@ import { createTodo } from './graphql/mutations';
 import awsconfig from './aws-exports';
 
 import './App.css';
-import { CreateTodoInput } from './API';
+
 import { listTodos } from './graphql/queries';
+import { ITodo, Todo } from './Todo';
 
 // Configure Amplify
 Auth.configure(awsconfig);
 API.configure(awsconfig);
 PubSub.configure(awsconfig);
-
-type Todo = CreateTodoInput;
 
 async function createNewTodo() {
   const todo = { name: "Use AWS AppSync", description: "Realtime and Offline", completed: false };
@@ -27,9 +26,8 @@ async function getTodos() {
   return await API.graphql(graphqlOperation(listTodos));
 }
 
-
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
 
   useEffect(() => {
     async function getData() {
@@ -41,12 +39,12 @@ function App() {
   return (
     <div className="App">
       <button onClick={createNewTodo}>Add Todo</button>
-      <div>
+      <ul>
         {todos.length > 0 ?
-          todos.map((todo) => <p key={todo.id!}>{todo.name} : {todo.description} {todo.completed ? 'Completed': 'Incomplete'}</p>) :
+          todos.map((todo) => <Todo key={todo.id!} todo={todo}/>) :
           <p>Add some todos!</p>
         }
-      </div>
+      </ul>
     </div>
   );
 }
