@@ -86,4 +86,68 @@ So the Graphql schema is in [amplify/backend/api/nlesc/schema.graphql](amplify/b
 
 ```sh
 amplify push
+✔ Successfully pulled backend environment master from the cloud.
+
+Current Environment: master
+
+| Category | Resource name | Operation | Provider plugin   |
+| -------- | ------------- | --------- | ----------------- |
+| Auth     | nlesc8d53e119 | Create    | awscloudformation |
+| Api      | nlesc         | Create    | awscloudformation |
+? Are you sure you want to continue? Yes
+
+The following types do not have '@auth' enabled. Consider using @auth with @model
+	 - Todo
+Learn more about @auth here: https://aws-amplify.github.io/docs/cli-toolchain/graphql#auth 
+
+
+GraphQL schema compiled successfully.
+
+Edit your schema at .../nlesc-serverless-boilerplate/amplify/backend/api/nlesc/schema.graphql or place .graphql files in a directory at .../nlesc-serverless-boilerplate/amplify/backend/api/nlesc/schema
+? Do you want to generate code for your newly created GraphQL API Yes
+? Choose the code generation language target typescript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.ts
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 5
+? Enter the file name for the generated code src/API.ts
+
+...
+
+✔ Generated GraphQL operations successfully and saved at src/graphql
+✔ Code generated successfully and saved in file src/API.ts
+✔ All resources are updated in the cloud
+
+GraphQL endpoint: https://******************.appsync-api.eu-central-1.amazonaws.com/graphql
+
+```
+
+### Create a cognito user & test Graphql endpoint
+
+Without a web application with a registration form you can 
+1. create an coginto user in [AWS console](https://eu-central-1.console.aws.amazon.com/cognito/home?region=eu-central-1)
+2. Goto [AWS Appsync console](https://eu-central-1.console.aws.amazon.com/appsync/home?region=eu-central-1)
+3. Goto Run a query
+4. Login with the user you just created
+5. Run following query
+
+```graphql
+{
+  listTodos {
+    items {
+      name
+    }
+  }
+}
+```
+
+Results in 
+
+```json
+{
+  "data": {
+    "listTodos": {
+      "items": []
+    }
+  }
+}
 ```
