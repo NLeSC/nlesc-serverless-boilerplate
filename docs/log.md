@@ -190,7 +190,7 @@ Your app is published successfully.
 http://nlesc-serverless-boilerplate-master.s3-website.eu-central-1.amazonaws.com
 ```
 
-### Add markAsCompleted lambda
+### Add markAsCompleted lambda function
 
 Using Javascript
 
@@ -214,21 +214,54 @@ type Mutation {
 }
 ```
 
+To `amplify/backend/function/markAsCompleted/markAsCompleted-cloudformation-template.json:Resources:AmplifyResourcesPolicy.Properties.PolicyDocument` add policy to allow dynomdb access.
+```
+
 Update Graphql api with
 ```sh
 amplify push
 ```
 
-### Add markAllAsCompleted lambda
+### Add markAllAsCompleted lambda function
 
+Will call `markAsCompleted` for all incomplete todos.
 
-### Add todoCounter lambda
+### Add markAllAsCompleted mutation to Graphql
 
-Using Python
+### Add todoCounter lambda function
 
-```sh
-amplify function add
-```
+Using Python count the number of completed and incomplete todos.
 
 ### Add todoCounter query to Graphql
 
+### Add Batch job definition
+
+Create custom category to setup a AWS Batch compute environment, job queue and job definition.
+
+### Add Docker image
+
+The AWS Batch job definition has a Docker image.
+
+Create a Docker repository on AWS ECR using cloud formation template and push an image to it.
+
+Job should fetch and update something from DynamoDB.
+
+### Submit job from AWS console
+
+### Add job model to graphql
+
+### Add job submit function lambda
+
+### Add job submit mutation to graphql
+
+### Add job cancel function lambda
+
+### Add job cancel mutation to graphql
+
+### Add job listen function lambda
+
+### Add job listen mutation to graphql
+
+### Add authorization to Graphql models and functions
+
+### Add S3 bucket for input/output files for a computation
