@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "nlesc",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authnlesc8d53e119",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

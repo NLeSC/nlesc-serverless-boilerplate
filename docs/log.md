@@ -39,6 +39,51 @@ Some next steps:
 
 Pro tip:
 Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything
+```
+
+## Add API and database
+
+```sh
+amplify add api
+? Please select from one of the below mentioned services: GraphQL
+? Provide API name: nlesc
+? Choose the default authorization type for the API Amazon Cognito User Pool
+Using service: Cognito, provided by: awscloudformation
+ 
+ The current configured provider is Amazon Cognito. 
+ 
+ Do you want to use the default authentication and security configuration? Default configuration
+ Warning: you will not be able to edit these selections. 
+ How do you want users to be able to sign in? Username
+ Do you want to configure advanced settings? No, I am done.
+Successfully added auth resource
+? Do you want to configure advanced settings for the GraphQL API No, I am done.
+? Do you have an annotated GraphQL schema? No
+? Do you want a guided schema creation? Yes
+? What best describes your project: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now? Yes
+Please edit the file in your editor: .../nlesc-serverless-boilerplate/amplify/backend/api/nlesc/schema.graphql
+? Press enter to continue 
+
+The following types do not have '@auth' enabled. Consider using @auth with @model
+	 - Todo
+Learn more about @auth here: https://aws-amplify.github.io/docs/cli-toolchain/graphql#auth 
 
 
+GraphQL schema compiled successfully.
+
+Edit your schema at .../nlesc-serverless-boilerplate/amplify/backend/api/nlesc/schema.graphql or place .graphql files in a directory at .../nlesc-serverless-boilerplate/amplify/backend/api/nlesc/schema
+Successfully added resource nlesc locally
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+So the Graphql schema is in [amplify/backend/api/nlesc/schema.graphql](amplify/backend/api/nlesc/schema.graphql).
+
+## Push resource to AWS
+
+```sh
+amplify push
 ```
