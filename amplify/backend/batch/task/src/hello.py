@@ -56,7 +56,7 @@ def update_progress(fraction, message):
 
 def set_result(output):
     jobid =  os.getenv('AWS_BATCH_JOB_ID')
-    key = {'id', jobid}
+    key = {'id': jobid}
     result = {
         'output': output
     }
