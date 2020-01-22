@@ -9,6 +9,10 @@
             "Type": "String",
             "Default": "nlesc-computedefinition"
         },
+        "taskJobQueue": {
+            "Type": "String",
+            "Default": "nlesc-jobqueue"
+        },
         "taskSubnets": {
             "Description": "VPC Subnets form Batch compute environment",
             "Type": "List<AWS::EC2::Subnet::Id>"
@@ -163,6 +167,35 @@
                     "Ref": "ServiceRole"
                 },
                 "State": "ENABLED"
+            }
+        },
+        "JobQueue": {
+            "Type": "AWS::Batch::JobQueue",
+            "Properties": {
+                "JobQueueName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "taskJobQueue"
+                            },
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                },
+                "State": "ENABLED",
+                "Priority": 1,
+                "ComputeEnvironmentOrder": [
+                    {
+                        "Order": 1,
+                        "ComputeEnvironment": {
+                            "Ref": "ComputeEnvironment"
+                        }
+                    }
+                ]
             }
         }
     }
