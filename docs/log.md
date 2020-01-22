@@ -403,14 +403,55 @@ amplify push
 ### Add job submit mutation to graphql
 
 Add mutation to graphql.
+Test with AWS AppSync console
+
+Graphql:
+```graphql
+mutation SubmitJob($jobdescriptionid: ID!) {
+  submitJob(jobdescriptionid: $jobdescriptionid)
+}
+```
+Vars:
+```
+{
+  "jobdescriptionid": "b78be18c-24e0-4fc2-8837-9ef4495d7cff"
+}
+```
+Should return a job id and create a job in the db.
 
 ### Add job cancel function lambda
 
+```
+amplify function add
+Using service: Lambda, provided by: awscloudformation
+? Provide a friendly name for your resource to be used as a label for this category in the project: jobcancel
+? Provide the AWS Lambda function name: nlesc-jobcancel
+? Choose the function template that you want to use: Hello world function
+? Do you want to access other resources created in this project from your Lambda function? Yes
+? Select the category api
+Api category has a resource called nlesc
+? Select the operations you want to permit for nlesc read
+```
+
+
+After function body and permission have been set push again
+```
+amplify push
+```
+
+
 ### Add job cancel mutation to graphql
+
+Add mutation to graphql.
+Test with AWS AppSync console
+
+
 
 ### Add job listen function lambda
 
 ### Add job listen mutation to graphql
+
+### Addd progress reporting to Docker
 
 ### Add authorization to Graphql models and functions
 

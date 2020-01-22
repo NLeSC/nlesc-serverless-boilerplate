@@ -208,6 +208,14 @@ export type SubmitJobMutation = {
   submitJob: string | null,
 };
 
+export type CancelJobMutationVariables = {
+  jobid: string,
+};
+
+export type CancelJobMutation = {
+  cancelJob: string | null,
+};
+
 export type CreateTodoMutationVariables = {
   input: CreateTodoInput,
   condition?: ModelTodoConditionInput | null,

@@ -9,6 +9,10 @@ export const submitJob = `mutation SubmitJob($jobdescriptionid: ID!) {
   submitJob(jobdescriptionid: $jobdescriptionid)
 }
 `;
+export const cancelJob = `mutation CancelJob($jobid: ID!) {
+  cancelJob(jobid: $jobid)
+}
+`;
 export const createTodo = `mutation CreateTodo(
   $input: CreateTodoInput!
   $condition: ModelTodoConditionInput

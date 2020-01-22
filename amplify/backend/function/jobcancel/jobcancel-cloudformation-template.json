@@ -12,14 +12,6 @@
 		"apinlescGraphQLAPIEndpointOutput": {
 			"Type": "String",
 			"Default": "apinlescGraphQLAPIEndpointOutput"
-		},
-		"batchtaskJobDefinitionArn": {
-			"Type": "String",
-			"Default": "batchtaskJobDefinitionArn"
-		},
-		"batchtaskJobQueue": {
-			"Type": "String",
-			"Default": "batchtaskJobQueue"
 		}
 	},
 	"Conditions": {
@@ -44,12 +36,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"nlesc-jobsubmit",
+						"nlesc-jobcancel",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"nlesc-jobsubmit",
+									"nlesc-jobcancel",
 									"-",
 									{
 										"Ref": "env"
@@ -72,12 +64,6 @@
 						},
 						"API_NLESC_GRAPHQLAPIENDPOINTOUTPUT": {
 							"Ref": "apinlescGraphQLAPIEndpointOutput"
-						},
-						"BATCH_TASK_JOBQUEUE": {
-							"Ref": "batchtaskJobQueue"
-						},
-						"BATCH_TASK_JOBDEFINITION": {
-							"Ref": "batchtaskJobDefinitionArn"
 						}
 					}
 				},
@@ -91,7 +77,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "nlesc-master-20191211141257-deployment",
-					"S3Key": "amplify-builds/jobsubmit-624f6967695479664671-build.zip"
+					"S3Key": "amplify-builds/jobcancel-556a7547737041714b52-build.zip"
 				}
 			}
 		},
@@ -101,12 +87,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"nlescLambdaRoleb16ce01d",
+						"nlescLambdaRolea7d65720",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"nlescLambdaRoleb16ce01d",
+									"nlescLambdaRolea7d65720",
 									"-",
 									{
 										"Ref": "env"
@@ -195,12 +181,8 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"appsync:Create*",
-								"appsync:StartSchemaCreation",
-								"appsync:GraphQL",
 								"appsync:Get*",
-								"appsync:List*",
-								"appsync:Update*"
+								"appsync:List*"
 							],
 							"Resource": [
 								{
@@ -228,73 +210,10 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"batch:SubmitJob"
+								"batch:CancelJob",
+								"batch:TerminateJob"
 							],
 							"Resource": "*"
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:GetItem",
-								"dynamodb:UpdateItem",
-								"dynamodb:PutItem"
-							],
-							"Resource": [
-								{
-									"Fn::Join": [
-										"",
-										[
-											"arn:aws:dynamodb:",
-											{
-												"Ref": "AWS::Region"
-											},
-											":",
-											{
-												"Ref": "AWS::AccountId"
-											},
-											":table/Job-",
-											{
-												"Ref": "apinlescGraphQLAPIIdOutput"
-											},
-											"-",
-											{
-												"Ref": "env"
-											}
-										]
-									]
-								}
-							]
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:GetItem"
-							],
-							"Resource": [
-								{
-									"Fn::Join": [
-										"",
-										[
-											"arn:aws:dynamodb:",
-											{
-												"Ref": "AWS::Region"
-											},
-											":",
-											{
-												"Ref": "AWS::AccountId"
-											},
-											":table/JobDescription-",
-											{
-												"Ref": "apinlescGraphQLAPIIdOutput"
-											},
-											"-",
-											{
-												"Ref": "env"
-											}
-										]
-									]
-								}
-							]
 						}
 					]
 				}
