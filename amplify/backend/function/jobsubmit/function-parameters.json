@@ -1,0 +1,11 @@
+{
+    "permissions": {
+        "api": {
+            "nlesc": [
+                "create",
+                "read",
+                "update"
+            ]
+        }
+    }
+}
