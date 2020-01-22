@@ -439,19 +439,31 @@ After function body and permission have been set push again
 amplify push
 ```
 
+### Addd progress reporting to Docker
+
+Use boto3 to update DynamoDB job.status.
 
 ### Add job cancel mutation to graphql
 
 Add mutation to graphql.
-Test with AWS AppSync console
-
-
+Test with AWS AppSync console with the following query
+```
+ mutation CancelJob {
+   cancelJob(jobid: "4b57218f-6364-49f3-a742-340a82593bd4")
+ }
+```
+Check in DynamodDB if job has been cancelled
 
 ### Add job listen function lambda
 
-### Add job listen mutation to graphql
+Added lambda function and attached it to the AWS batch job state change event.
 
-### Addd progress reporting to Docker
+After function body and permission have been set push again
+```
+amplify push
+```
+
+### Add job functionality to React app
 
 ### Add authorization to Graphql models and functions
 

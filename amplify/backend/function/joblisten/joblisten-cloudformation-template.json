@@ -1,0 +1,359 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Lambda resource stack creation using Amplify CLI",
+	"Parameters": {
+		"env": {
+			"Type": "String"
+		},
+		"apinlescGraphQLAPIIdOutput": {
+			"Type": "String",
+			"Default": "apinlescGraphQLAPIIdOutput"
+		},
+		"apinlescGraphQLAPIEndpointOutput": {
+			"Type": "String",
+			"Default": "apinlescGraphQLAPIEndpointOutput"
+		},
+		"batchtaskJobQueue": {
+			"Type": "String",
+			"Default": "batchtaskJobQueue"
+		}
+	},
+	"Conditions": {
+		"ShouldNotCreateEnvResources": {
+			"Fn::Equals": [
+				{
+					"Ref": "env"
+				},
+				"NONE"
+			]
+		}
+	},
+	"Resources": {
+		"LambdaFunction": {
+			"Type": "AWS::Lambda::Function",
+			"Metadata": {
+				"aws:asset:path": "./src",
+				"aws:asset:property": "Code"
+			},
+			"Properties": {
+				"Handler": "index.handler",
+				"FunctionName": {
+					"Fn::If": [
+						"ShouldNotCreateEnvResources",
+						"nlesc-joblisten",
+						{
+							"Fn::Join": [
+								"",
+								[
+									"nlesc-joblisten",
+									"-",
+									{
+										"Ref": "env"
+									}
+								]
+							]
+						}
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENV": {
+							"Ref": "env"
+						},
+						"REGION": {
+							"Ref": "AWS::Region"
+						},
+						"API_NLESC_GRAPHQLAPIIDOUTPUT": {
+							"Ref": "apinlescGraphQLAPIIdOutput"
+						},
+						"API_NLESC_GRAPHQLAPIENDPOINTOUTPUT": {
+							"Ref": "apinlescGraphQLAPIEndpointOutput"
+						}
+					}
+				},
+				"Role": {
+					"Fn::GetAtt": [
+						"LambdaExecutionRole",
+						"Arn"
+					]
+				},
+				"Runtime": "nodejs10.x",
+				"Timeout": "25",
+				"Code": {
+					"S3Bucket": "nlesc-master-20191211141257-deployment",
+					"S3Key": "amplify-builds/joblisten-314f6c3278796e6a4a68-build.zip"
+				}
+			}
+		},
+		"LambdaExecutionRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Fn::If": [
+						"ShouldNotCreateEnvResources",
+						"nlescLambdaRoledb335572",
+						{
+							"Fn::Join": [
+								"",
+								[
+									"nlescLambdaRoledb335572",
+									"-",
+									{
+										"Ref": "env"
+									}
+								]
+							]
+						}
+					]
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							},
+							"Action": [
+								"sts:AssumeRole"
+							]
+						}
+					]
+				}
+			}
+		},
+		"lambdaexecutionpolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"logs:CreateLogGroup",
+								"logs:CreateLogStream",
+								"logs:PutLogEvents"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"lambda": {
+											"Ref": "LambdaFunction"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		},
+		"AmplifyResourcesPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"appsync:Get*",
+								"appsync:List*",
+								"appsync:Update*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:appsync:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":apis/",
+											{
+												"Ref": "apinlescGraphQLAPIIdOutput"
+											},
+											"/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:GetItem",
+								"dynamodb:UpdateItem"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/Job-",
+											{
+												"Ref": "apinlescGraphQLAPIIdOutput"
+											},
+											"-",
+											{
+												"Ref": "env"
+											}
+										]
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		},
+		"CloudWatchEventRule": {
+			"DependsOn": [
+				"LambdaFunction"
+			],
+			"Type": "AWS::Events::Rule",
+			"Properties": {
+				"Name": {
+					"Fn::Join": [
+						"",
+						[
+							"nlesc-jobListenRule",
+							"-",
+							{
+								"Ref": "env"
+							}
+						]
+					]
+				},
+				"EventPattern": {
+					"source": [
+						"aws.batch"
+					],
+					"detail-type": [
+						"Batch Job State Change"
+					],
+					"detail": {
+						"jobQueue": [
+							{
+								"Fn::Join": [
+									"",
+									[
+										"arn:aws:batch:",
+										{
+											"Ref": "AWS::Region"
+										},
+										":",
+										{
+											"Ref": "AWS::AccountId"
+										},
+										":job-queue/",
+										{
+											"Ref": "batchtaskJobQueue"
+										}
+									]
+								]
+							}
+						]
+					}
+				},
+				"State": "ENABLED",
+				"Targets": [
+					{
+						"Arn": {
+							"Fn::GetAtt": [
+								"LambdaFunction",
+								"Arn"
+							]
+						},
+						"Id": "nlesc-joblisten-lambda"
+					}
+				]
+			}
+		},
+		"LambdaInvokePermission": {
+			"Type": "AWS::Lambda::Permission",
+			"Properties": {
+				"Principal": "events.amazonaws.com",
+				"FunctionName": {
+					"Fn::GetAtt": [
+						"LambdaFunction",
+						"Arn"
+					]
+				},
+				"Action": "lambda:InvokeFunction",
+				"SourceArn": {
+					"Fn::GetAtt": [
+						"CloudWatchEventRule",
+						"Arn"
+					]
+				}
+			}
+		}
+	},
+	"Outputs": {
+		"Name": {
+			"Value": {
+				"Ref": "LambdaFunction"
+			}
+		},
+		"Arn": {
+			"Value": {
+				"Fn::GetAtt": [
+					"LambdaFunction",
+					"Arn"
+				]
+			}
+		},
+		"Region": {
+			"Value": {
+				"Ref": "AWS::Region"
+			}
+		},
+		"LambdaExecutionRole": {
+			"Value": {
+				"Ref": "LambdaExecutionRole"
+			}
+		}
+	}
+}
