@@ -5,6 +5,10 @@ export const markAsCompleted = `mutation MarkAsCompleted($todoId: ID!) {
   markAsCompleted(todoId: $todoId)
 }
 `;
+export const submitJob = `mutation SubmitJob($jobdescriptionid: ID!) {
+  submitJob(jobdescriptionid: $jobdescriptionid)
+}
+`;
 export const createTodo = `mutation CreateTodo(
   $input: CreateTodoInput!
   $condition: ModelTodoConditionInput

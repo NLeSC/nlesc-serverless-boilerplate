@@ -384,7 +384,25 @@ Submit job from AWS Batch console using job description id returned by mutation.
 
 ### Add job submit function lambda
 
+```
+amplify function add
+? Provide a friendly name for your resource to be used as a label for this category in the project: jobsubmit
+? Provide the AWS Lambda function name: nlesc-jobsubmit
+? Choose the function template that you want to use: Hello world function
+? Do you want to access other resources created in this project from your Lambda function? Yes
+? Select the category api
+Api category has a resource called nlesc
+? Select the operations you want to permit for nlesc create, read, update
+```
+
+After function body and permission have been set push again
+```
+amplify push
+```
+
 ### Add job submit mutation to graphql
+
+Add mutation to graphql.
 
 ### Add job cancel function lambda
 

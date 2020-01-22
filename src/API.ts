@@ -200,6 +200,14 @@ export type MarkAsCompletedMutation = {
   markAsCompleted: string | null,
 };
 
+export type SubmitJobMutationVariables = {
+  jobdescriptionid: string,
+};
+
+export type SubmitJobMutation = {
+  submitJob: string | null,
+};
+
 export type CreateTodoMutationVariables = {
   input: CreateTodoInput,
   condition?: ModelTodoConditionInput | null,

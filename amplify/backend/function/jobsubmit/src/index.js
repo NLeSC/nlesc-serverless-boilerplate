@@ -21,7 +21,10 @@ exports.handler = async (event, context) => {
     const jobdescription = await dynamodb.getItem({
         TableName: jobdescription_table,
         Key: { id: { S: jobdescription_id } }
-    });
+    }).promise();
+    if (!jobdescription) {
+        context.done('Job description not found', null);
+    }
     console.log(jobdescription);
 
     const jobSubmissionResponse = await scheduler.submitJob({
@@ -50,12 +53,6 @@ exports.handler = async (event, context) => {
           },
           updatedAt: {
             S: new Date().toISOString()
-          },
-          progress: {
-              N: 0
-          },
-          progressMessage: {
-              S: ''
           }
         }
       };

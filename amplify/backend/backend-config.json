@@ -44,6 +44,29 @@
 					]
 				}
 			]
+		},
+		"jobsubmit": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "nlesc",
+					"attributes": [
+						"GraphQLAPIIdOutput",
+						"GraphQLAPIEndpointOutput"
+					]
+				},
+				{
+					"category": "batch",
+					"resourceName": "task",
+					"attributes": [
+						"JobDefinitionArn",
+						"JobQueue"
+					]
+				}
+			]
 		}
 	},
 	"batch": {
@@ -60,7 +83,6 @@
 					]
 				}
 			]
-
 		}
 	}
 }

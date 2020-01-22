@@ -472,5 +472,49 @@
                 "Type": "container"
             }
         }
+    },
+    "Outputs": {
+        "Region": {
+            "Value": {
+                "Ref": "AWS::Region"
+            }
+        },
+        "ImageName": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        {
+                            "Ref": "taskImageName"
+                        },
+                        "-",
+                        {
+                            "Ref": "env"
+                        }
+                    ]
+                ]
+            }
+        },
+        "JobQueue": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        {
+                            "Ref": "taskJobQueue"
+                        },
+                        "-",
+                        {
+                            "Ref": "env"
+                        }
+                    ]
+                ]
+            }
+        },
+        "JobDefinitionArn": {
+            "Value": {
+                "Ref": "JobDefinition"
+            }
+        }
     }
 }

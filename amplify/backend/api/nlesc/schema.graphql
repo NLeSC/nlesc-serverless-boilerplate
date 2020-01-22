@@ -1,5 +1,7 @@
 type Mutation {
   markAsCompleted(todoId: ID!): ID @function(name: "nlesc-markAsCompleted-${env}")
+  # Returns a Job identifier
+  submitJob(jobdescriptionid: ID!): ID @function(name: "nlesc-jobsubmit-${env}")
 }
 
 type Todo @model {
