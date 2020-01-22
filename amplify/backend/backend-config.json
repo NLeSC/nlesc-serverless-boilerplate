@@ -45,5 +45,22 @@
 				}
 			]
 		}
+	},
+	"batch": {
+		"task": {
+			"service": "batch",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "nlesc",
+					"attributes": [
+						"GraphQLAPIIdOutput",
+						"GraphQLAPIEndpointOutput"
+					]
+				}
+			]
+
+		}
 	}
 }

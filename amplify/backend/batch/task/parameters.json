@@ -1,0 +1,8 @@
+{
+    "taskSubnets": [
+        "subnet-4abd4d07",
+        "subnet-4e310c34",
+        "subnet-bdc73ad6"
+    ],
+    "taskComputeEnvironmentSecurityGroupId": "sg-406f852a"
+}

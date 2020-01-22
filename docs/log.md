@@ -275,6 +275,45 @@ Using Python count the number of completed and incomplete todos.
 
 Create custom category to setup a AWS Batch compute environment, job queue and job definition.
 
+```
+cd amplify/backend
+mkdir -p batch/task
+```
+
+Create cloud formation file `amplify/backend/batch/task/template.json` using https://aws.amazon.com/cloudformation/getting-started/ as a guide and https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html as a reference for the different resources. 
+
+Batch job settings you might want to change in `amplify/backend/batch/task/template.json:Resources:ComputeEnvironment:ComputeResources`:
+* InstanceTypes, defaults to optimal, but can be changed to for example only run `p2.family` instances to get only gpu vms.
+* Desired number of vcpus (DesiredvCpus), defaults to 0 which means no vm will be kept running when queue is empty.
+In `amplify/backend/batch/task/parameters.json`:
+* Docker image name
+* security group, goto [EC2 console](https://eu-central-1.console.aws.amazon.com/ec2/v2/home?region=eu-central-1#SecurityGroups:sort=groupId) to find your security group (adjust url to your region)
+* subnets, goto [VPC console](https://eu-central-1.console.aws.amazon.com/vpc/home#subnets:sort=SubnetId) to find your subnets (adjust url to your region)
+
+TODO decide should cf create or hardcode for batch job:
+
+* service role https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html
+* instance role https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html
+
+
+Make cli aware of batch category
+```
+amplify env checkout master
+
+Current Environment: master
+
+| Category | Resource name   | Operation | Provider plugin   |
+| -------- | --------------- | --------- | ----------------- |
+| Batch    | task            | Create    | awscloudformation |
+...
+```
+
+Create batch resources in cloud
+```
+amplify push
+
+```
+
 ### Add Docker image
 
 The AWS Batch job definition has a Docker image.
@@ -286,6 +325,20 @@ Job should fetch and update something from DynamoDB.
 ### Submit job from AWS console
 
 ### Add job model to graphql
+
+TODO decide graphql types for job
+```graphql
+type Description {
+
+}
+
+type Job {
+  id
+  status
+  result
+}
+
+```
 
 ### Add job submit function lambda
 

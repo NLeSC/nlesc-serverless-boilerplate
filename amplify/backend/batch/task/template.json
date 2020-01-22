@@ -1,0 +1,169 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Batch job resource stack",
+    "Parameters": {
+        "env": {
+            "Type": "String"
+        },
+        "taskComputeDefinition": {
+            "Type": "String",
+            "Default": "nlesc-computedefinition"
+        },
+        "taskSubnets": {
+            "Description": "VPC Subnets form Batch compute environment",
+            "Type": "List<AWS::EC2::Subnet::Id>"
+        },
+        "taskComputeEnvironmentSecurityGroupId": {
+            "Type": "AWS::EC2::SecurityGroup::Id",
+            "Description": "Security group in which Docker container will run"
+        },
+        "apinlescGraphQLAPIIdOutput": {
+            "Type": "String",
+            "Default": "apinlescGraphQLAPIIdOutput"
+        },
+        "apinlescGraphQLAPIEndpointOutput": {
+            "Type": "String",
+            "Default": "apinlescGraphQLAPIEndpointOutput"
+        }
+    },
+    "Resources": {
+        "InstanceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "nlescTaskInstanceRole",
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+                ]
+            }
+        },
+        "InstanceRoleProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "InstanceProfileName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "nlescTaskInstanceProfile",
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                },
+                "Roles": [
+                    {
+                        "Ref": "InstanceRole"
+                    }
+                ]
+            }
+        },
+        "ServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "nlescTaskServiceRole",
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "batch.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
+                ]
+            }
+        },
+        "ComputeEnvironment": {
+            "Type": "AWS::Batch::ComputeEnvironment",
+            "Properties": {
+                "ComputeEnvironmentName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "taskComputeDefinition"
+                            },
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                },
+                "ComputeResources": {
+                    "Type": "EC2",
+                    "MinvCpus": 0,
+                    "MaxvCpus": 16,
+                    "DesiredvCpus": 0,
+                    "Subnets": {
+                        "Ref": "taskSubnets"
+                    },
+                    "InstanceRole": {
+                        "Ref": "InstanceRoleProfile"
+                    },
+                    "InstanceTypes": [
+                        "optimal"
+                    ],
+                    "SecurityGroupIds": [
+                        {
+                            "Ref": "taskComputeEnvironmentSecurityGroupId"
+                        }
+                    ]
+                },
+                "Type": "MANAGED",
+                "ServiceRole": {
+                    "Ref": "ServiceRole"
+                },
+                "State": "ENABLED"
+            }
+        }
+    }
+}
