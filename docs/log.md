@@ -350,9 +350,37 @@ Push it
 amplify push
 ```
 
+
+
 ### Adjust Docker image to talk to appsync/dynomdb
 
 Job should fetch and update something from DynamoDB.
+
+Add a job description in [AWS AppSync console](https://eu-central-1.console.aws.amazon.com/appsync/home?region=eu-central-1#/apis) with
+```graphql
+mutation CreateJobDescription(
+  $input: CreateJobDescriptionInput!
+) {
+  createJobDescription(input: $input) {
+    id
+    payload {
+      count
+    }
+  }
+}
+```
+Variables:
+```
+{
+  "input": {
+    "payload": {
+      "count": 42
+    }
+  }
+}
+```
+
+Submit job from AWS Batch console using job description id returned by mutation.
 
 ### Add job submit function lambda
 

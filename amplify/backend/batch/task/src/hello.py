@@ -15,6 +15,18 @@ def jobdescription_table():
     """Returns DynamoDB table which contains job descriptions"""
     return get_table('JobDescription')
 
+def job_table():
+    """Returns DynamoDB table which contains job descriptions"""
+    return get_table('Job')
+
+def fetch_jobdescription(jobdescription_identifier):
+    """Fetch a jobdescription from the db by it's identifier"""
+    table = jobdescription_table()
+    response = table.get_item(Key={
+        'id': jobdescription_identifier
+    })
+    return response['Item']
+
 def main():
     # Accepts a project(+plan) identifier as argument
     parser = argparse.ArgumentParser()
@@ -23,6 +35,8 @@ def main():
     jobdescription_identifier = args.jobdescription_identifier
 
     print("Fetching job description with identifier = " + jobdescription_identifier)
+    desc = fetch_jobdescription(jobdescription_identifier)
+    print(desc)
 
     print(os.environ)
     # print("Job description table = " + jobdescription_table())
