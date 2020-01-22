@@ -41,7 +41,7 @@ def fetch_job(job_id):
 def update_progress(fraction, message):
     jobid =  os.getenv('AWS_BATCH_JOB_ID')
     print(f"{fraction}, {message}")
-    key = {'id', jobid}
+    key = {'id': jobid}
     job = fetch_job(jobid)
     status = job['status']
     status['progress']= Decimal(str(fraction))
