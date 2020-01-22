@@ -8,3 +8,54 @@ type Todo @model {
   description: String
   completed: Boolean!
 }
+
+type JobDescription @model {
+  id: ID!
+  payload: JobPayload
+  jobs: [Job] @connection(fields: ["id"])
+}
+
+# Customizing the jobs description payload should be done on this type
+type JobPayload {
+  count: Int!
+}
+
+type Job @model {
+  id: ID!
+  status: JobStatus
+  result: JobResult
+  jobDescriptionID: ID!
+  description: JobDescription @connection(fields: ["jobDescriptionID"])
+}
+
+enum JobState {
+    UNKNOWN
+    #"Below are job states of an AWS Batch job (https://docs.aws.amazon.com/batch/latest/userguide/job_states.html)"
+    SUBMITTED
+    PENDING
+    RUNNABLE
+    STARTING
+    RUNNING
+    SUCCEEDED
+    FAILED
+}
+
+type JobStatus {
+    state: JobState!
+    # Filled if state==FAILED
+    error: String
+    # Identity id of user of submitted job
+    submittedBy: String!
+    submittedAt: AWSDateTime!
+    completedAt: AWSDateTime
+    updatedAt: AWSDateTime
+    # Fraction of progress of a running job
+    progress: Float
+    # Message at progress of a running job
+    progressMessage: String
+}
+
+# Customizing the jobs result should be done on this type
+type JobResult {
+  output: String
+}

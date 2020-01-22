@@ -345,19 +345,9 @@ docker push <account id>.dkr.ecr.eu-central-1.amazonaws.com/nlesc-hello-task-mas
 
 ### Add job model to graphql
 
-TODO decide graphql types for job
-```graphql
-type Description {
-  id: ID!
-}
-
-type Job {
-  id: ID!
-  status
-  result
-  description @connection
-}
-
+Push it
+```
+amplify push
 ```
 
 ### Adjust Docker image to talk to appsync/dynomdb
