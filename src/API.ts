@@ -75,14 +75,69 @@ export type DeleteTodoInput = {
   id?: string | null,
 };
 
-export type ModelTodoFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  completed?: ModelBooleanInput | null,
-  and?: Array< ModelTodoFilterInput | null > | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
-  not?: ModelTodoFilterInput | null,
+export type CreateJobDescriptionInput = {
+  id?: string | null,
+  payload?: JobPayloadInput | null,
+};
+
+export type JobPayloadInput = {
+  count: number,
+};
+
+export type ModelJobDescriptionConditionInput = {
+  and?: Array< ModelJobDescriptionConditionInput | null > | null,
+  or?: Array< ModelJobDescriptionConditionInput | null > | null,
+  not?: ModelJobDescriptionConditionInput | null,
+};
+
+export type UpdateJobDescriptionInput = {
+  id: string,
+  payload?: JobPayloadInput | null,
+};
+
+export type DeleteJobDescriptionInput = {
+  id?: string | null,
+};
+
+export type CreateJobInput = {
+  id?: string | null,
+  status?: JobStatusInput | null,
+  result?: JobResultInput | null,
+  jobDescriptionID: string,
+};
+
+export type JobStatusInput = {
+  state: JobState,
+  error?: string | null,
+  submittedBy: string,
+  submittedAt: string,
+  completedAt?: string | null,
+  updatedAt?: string | null,
+  progress?: number | null,
+  progressMessage?: string | null,
+};
+
+export enum JobState {
+  UNKNOWN = "UNKNOWN",
+  SUBMITTED = "SUBMITTED",
+  PENDING = "PENDING",
+  RUNNABLE = "RUNNABLE",
+  STARTING = "STARTING",
+  RUNNING = "RUNNING",
+  SUCCEEDED = "SUCCEEDED",
+  FAILED = "FAILED",
+}
+
+
+export type JobResultInput = {
+  output?: string | null,
+};
+
+export type ModelJobConditionInput = {
+  jobDescriptionID?: ModelIDInput | null,
+  and?: Array< ModelJobConditionInput | null > | null,
+  or?: Array< ModelJobConditionInput | null > | null,
+  not?: ModelJobConditionInput | null,
 };
 
 export type ModelIDInput = {
@@ -99,6 +154,42 @@ export type ModelIDInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type UpdateJobInput = {
+  id: string,
+  status?: JobStatusInput | null,
+  result?: JobResultInput | null,
+  jobDescriptionID?: string | null,
+};
+
+export type DeleteJobInput = {
+  id?: string | null,
+};
+
+export type ModelTodoFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  completed?: ModelBooleanInput | null,
+  and?: Array< ModelTodoFilterInput | null > | null,
+  or?: Array< ModelTodoFilterInput | null > | null,
+  not?: ModelTodoFilterInput | null,
+};
+
+export type ModelJobDescriptionFilterInput = {
+  id?: ModelIDInput | null,
+  and?: Array< ModelJobDescriptionFilterInput | null > | null,
+  or?: Array< ModelJobDescriptionFilterInput | null > | null,
+  not?: ModelJobDescriptionFilterInput | null,
+};
+
+export type ModelJobFilterInput = {
+  id?: ModelIDInput | null,
+  jobDescriptionID?: ModelIDInput | null,
+  and?: Array< ModelJobFilterInput | null > | null,
+  or?: Array< ModelJobFilterInput | null > | null,
+  not?: ModelJobFilterInput | null,
 };
 
 export type MarkAsCompletedMutationVariables = {
@@ -154,6 +245,201 @@ export type DeleteTodoMutation = {
   } | null,
 };
 
+export type CreateJobDescriptionMutationVariables = {
+  input: CreateJobDescriptionInput,
+  condition?: ModelJobDescriptionConditionInput | null,
+};
+
+export type CreateJobDescriptionMutation = {
+  createJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateJobDescriptionMutationVariables = {
+  input: UpdateJobDescriptionInput,
+  condition?: ModelJobDescriptionConditionInput | null,
+};
+
+export type UpdateJobDescriptionMutation = {
+  updateJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteJobDescriptionMutationVariables = {
+  input: DeleteJobDescriptionInput,
+  condition?: ModelJobDescriptionConditionInput | null,
+};
+
+export type DeleteJobDescriptionMutation = {
+  deleteJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type CreateJobMutationVariables = {
+  input: CreateJobInput,
+  condition?: ModelJobConditionInput | null,
+};
+
+export type CreateJobMutation = {
+  createJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateJobMutationVariables = {
+  input: UpdateJobInput,
+  condition?: ModelJobConditionInput | null,
+};
+
+export type UpdateJobMutation = {
+  updateJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteJobMutationVariables = {
+  input: DeleteJobInput,
+  condition?: ModelJobConditionInput | null,
+};
+
+export type DeleteJobMutation = {
+  deleteJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
 export type GetTodoQueryVariables = {
   id: string,
 };
@@ -188,6 +474,131 @@ export type ListTodosQuery = {
   } | null,
 };
 
+export type GetJobDescriptionQueryVariables = {
+  id: string,
+};
+
+export type GetJobDescriptionQuery = {
+  getJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type ListJobDescriptionsQueryVariables = {
+  filter?: ModelJobDescriptionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListJobDescriptionsQuery = {
+  listJobDescriptions:  {
+    __typename: "ModelJobDescriptionConnection",
+    items:  Array< {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetJobQueryVariables = {
+  id: string,
+};
+
+export type GetJobQuery = {
+  getJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type ListJobsQueryVariables = {
+  filter?: ModelJobFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListJobsQuery = {
+  listJobs:  {
+    __typename: "ModelJobConnection",
+    items:  Array< {
+      __typename: "Job",
+      id: string,
+      status:  {
+        __typename: "JobStatus",
+        state: JobState,
+        error: string | null,
+        submittedBy: string,
+        submittedAt: string,
+        completedAt: string | null,
+        updatedAt: string | null,
+        progress: number | null,
+        progressMessage: string | null,
+      } | null,
+      result:  {
+        __typename: "JobResult",
+        output: string | null,
+      } | null,
+      jobDescriptionID: string,
+      description:  {
+        __typename: "JobDescription",
+        id: string,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
 export type OnCreateTodoSubscription = {
   onCreateTodo:  {
     __typename: "Todo",
@@ -215,5 +626,170 @@ export type OnDeleteTodoSubscription = {
     name: string,
     description: string | null,
     completed: boolean,
+  } | null,
+};
+
+export type OnCreateJobDescriptionSubscription = {
+  onCreateJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateJobDescriptionSubscription = {
+  onUpdateJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteJobDescriptionSubscription = {
+  onDeleteJobDescription:  {
+    __typename: "JobDescription",
+    id: string,
+    payload:  {
+      __typename: "JobPayload",
+      count: number,
+    } | null,
+    jobs:  {
+      __typename: "ModelJobConnection",
+      items:  Array< {
+        __typename: "Job",
+        id: string,
+        jobDescriptionID: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateJobSubscription = {
+  onCreateJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateJobSubscription = {
+  onUpdateJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteJobSubscription = {
+  onDeleteJob:  {
+    __typename: "Job",
+    id: string,
+    status:  {
+      __typename: "JobStatus",
+      state: JobState,
+      error: string | null,
+      submittedBy: string,
+      submittedAt: string,
+      completedAt: string | null,
+      updatedAt: string | null,
+      progress: number | null,
+      progressMessage: string | null,
+    } | null,
+    result:  {
+      __typename: "JobResult",
+      output: string | null,
+    } | null,
+    jobDescriptionID: string,
+    description:  {
+      __typename: "JobDescription",
+      id: string,
+      payload:  {
+        __typename: "JobPayload",
+        count: number,
+      } | null,
+      jobs:  {
+        __typename: "ModelJobConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
   } | null,
 };

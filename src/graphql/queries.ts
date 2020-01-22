@@ -26,3 +26,93 @@ export const listTodos = `query ListTodos(
   }
 }
 `;
+export const getJobDescription = `query GetJobDescription($id: ID!) {
+  getJobDescription(id: $id) {
+    id
+    payload {
+      count
+    }
+    jobs {
+      items {
+        id
+        jobDescriptionID
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const listJobDescriptions = `query ListJobDescriptions(
+  $filter: ModelJobDescriptionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listJobDescriptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      payload {
+        count
+      }
+      jobs {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+`;
+export const getJob = `query GetJob($id: ID!) {
+  getJob(id: $id) {
+    id
+    status {
+      state
+      error
+      submittedBy
+      submittedAt
+      completedAt
+      updatedAt
+      progress
+      progressMessage
+    }
+    result {
+      output
+    }
+    jobDescriptionID
+    description {
+      id
+      payload {
+        count
+      }
+      jobs {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const listJobs = `query ListJobs($filter: ModelJobFilterInput, $limit: Int, $nextToken: String) {
+  listJobs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      status {
+        state
+        error
+        submittedBy
+        submittedAt
+        completedAt
+        updatedAt
+        progress
+        progressMessage
+      }
+      result {
+        output
+      }
+      jobDescriptionID
+      description {
+        id
+      }
+    }
+    nextToken
+  }
+}
+`;
