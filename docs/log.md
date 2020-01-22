@@ -222,6 +222,43 @@ Update Graphql api with
 amplify push
 ```
 
+### Upgrade node8 lambdas
+
+Since Jan 2020 node8 lambdas have been deprecated (https://aws-amplify.github.io/docs/cli/lambda-node-version-update). 
+
+```
+npm install -g @aws-amplify/cli@4.12.0
+amplify status
+Amplify CLI uses Lambda backed custom resources with CloudFormation to manage part of your backend resources.
+In response to the Lambda Runtime support deprecation schedule
+https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html
+Nodejs runtime need to be updated from nodejs8.10  to nodejs10.x in the following template files:
+/home/stefanv/git/marin/nlesc-serverless-boilerplate/amplify/backend/auth/nlesc8d53e119/nlesc8d53e119-cloudformation-template.yml
+
+Please test the changes in a test environment before pushing these changes to production. There might be a need to update your Lambda function source code due to the NodeJS runtime update. Please take a look at https://aws-amplify.github.io/docs/cli/lambda-node-version-update for more information
+
+? Confirm to update the NodeJS runtime version to 10.x Yes
+
+NodeJS runtime version updated successfully to 10.x in all the CloudFormation templates.
+Make sure the template changes are pushed to the cloud by "amplify push"
+
+Current Environment: master
+
+| Category | Resource name   | Operation | Provider plugin   |
+| -------- | --------------- | --------- | ----------------- |
+| Auth     | nlesc8d53e119   | Update    | awscloudformation |
+| Api      | nlesc           | No Change | awscloudformation |
+| Hosting  | S3AndCloudFront | No Change | awscloudformation |
+| Function | markAsCompleted | No Change | awscloudformation |
+
+GraphQL endpoint: https://rxcbtxh7gvc3naaqvgm5vcteka.appsync-api.eu-central-1.amazonaws.com/graphql
+Hosting endpoint: http://nlesc-serverless-boilerplate-master.s3-website.eu-central-1.amazonaws.com
+
+
+amplify push
+```
+
+
 ### Add markAllAsCompleted lambda function
 
 Will call `markAsCompleted` for all incomplete todos.

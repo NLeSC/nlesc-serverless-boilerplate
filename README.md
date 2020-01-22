@@ -32,7 +32,7 @@ Requirements:
 Install amplify cli with
 
 ```sh
-npm install -g @aws-amplify/cli
+npm install -g @aws-amplify/cli@4.12.0
 ```
 
 Amplify cli needs to be installed globally, to not pollute your env we suggest to use [nvm](https://github.com/nvm-sh/nvm) to isolate the node env.
