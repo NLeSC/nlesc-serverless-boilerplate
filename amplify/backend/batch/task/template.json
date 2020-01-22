@@ -13,6 +13,22 @@
             "Type": "String",
             "Default": "nlesc-jobqueue"
         },
+        "taskImageName": {
+            "Description": "Docker image name for job, repo name will be prepended and environment appended",
+            "Type": "String"
+        },
+        "taskMemory": {
+            "Description": "The hard limit (in MiB) of memory to present to the container",
+            "Type": "Number"
+        },
+        "taskVcpus": {
+            "Description": "The number of vCPUs reserved for the container",
+            "Type": "Number"
+        },
+        "taskJobDefinition": {
+            "Type": "String",
+            "Default":"nlesc-task-jobdefinition"
+        },
         "taskSubnets": {
             "Description": "VPC Subnets form Batch compute environment",
             "Type": "List<AWS::EC2::Subnet::Id>"
@@ -196,6 +212,264 @@
                         }
                     }
                 ]
+            }
+        },
+        "ImageRepository": {
+            "Type": "AWS::ECR::Repository",
+            "Properties": {
+                "RepositoryName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "taskImageName"
+                            },
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                }
+            }
+        },
+        "BatchJobRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "nlescTaskBatchJobRole",
+                                    "-",
+                                    {
+                                        "Ref": "env"
+                                    }
+                                ]
+                            ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ecs-tasks.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "BatchJobPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "amplify-batch-instance-policy",
+                "Roles": [
+                    {
+                        "Ref": "BatchJobRole"
+                    }
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "appsync:Get*",
+                                "appsync:List*",
+                                "appsync:Update*"
+                            ],
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:appsync:",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                                "Ref": "AWS::AccountId"
+                                            },
+                                            ":apis/",
+                                            {
+                                                "Ref": "apinlescGraphQLAPIIdOutput"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "dynamodb:GetItem",
+                                "dynamodb:UpdateItem",
+                                "dynamodb:BatchGetItem",
+                                "dynamodb:Scan"
+                            ],
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:dynamodb:",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                                "Ref": "AWS::AccountId"
+                                            },
+                                            ":table/JobDescription-",
+                                            {
+                                                "Ref": "apinlescGraphQLAPIIdOutput"
+                                            },
+                                            "-",
+                                            {
+                                                "Ref": "env"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:dynamodb:",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                                "Ref": "AWS::AccountId"
+                                            },
+                                            ":table/Job-",
+                                            {
+                                                "Ref": "apinlescGraphQLAPIIdOutput"
+                                            },
+                                            "-",
+                                            {
+                                                "Ref": "env"
+                                            }
+                                        ]
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "JobDefinition": {
+            "Type": "AWS::Batch::JobDefinition",
+            "DependsOn": [
+                "ImageRepository"
+            ],
+            "Properties": {
+                "ContainerProperties": {
+                    "Image": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                {
+                                    "Ref": "AWS::AccountId"
+                                },
+                                ".dkr.ecr.",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                ".amazonaws.com/",
+                                {
+                                    "Ref": "taskImageName"
+                                },
+                                "-",
+                                {
+                                    "Ref": "env"
+                                },
+                                ":latest"
+                            ]
+                        ]
+                    },
+                    "Command": [
+                        "Ref::jobdesriptionid"
+                    ],
+                    "JobRoleArn": {
+                        "Ref": "BatchJobRole"
+                    },
+                    "Memory": {
+                        "Ref": "taskMemory"
+                    },
+                    "Vcpus": {
+                        "Ref": "taskVcpus"
+                    },
+                    "Environment": [
+                        {
+                            "Name": "ENV",
+                            "Value": {
+                                "Ref": "env"
+                            }
+                        },
+                        {
+                            "Name": "REGION",
+                            "Value": {
+                                "Ref": "AWS::Region"
+                            }
+                        },
+                        {
+                            "Name": "API_NLESC_GRAPHQLAPIIDOUTPUT",
+                            "Value": {
+                                "Ref": "apinlescGraphQLAPIIdOutput"
+                            }
+                        },
+                        {
+                            "Name": "API_NLESC_GRAPHQLAPIENDPOINTOUTPUT",
+                            "Value": {
+                                "Ref": "apinlescGraphQLAPIEndpointOutput"
+                            }
+                        },
+                        {
+                            "Name": "API_NLESC_DYNAMODB_TABLE_SUFFIX",
+                            "Value": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "-",
+                                        {
+                                            "Ref": "apinlescGraphQLAPIIdOutput"
+                                        },
+                                        "-",
+                                        {
+                                            "Ref": "env"
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "JobDefinitionName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            {
+                                "Ref": "taskJobDefinition"
+                            },
+                            "-",
+                            {
+                                "Ref": "env"
+                            }
+                        ]
+                    ]
+                },
+                "Type": "container"
             }
         }
     }

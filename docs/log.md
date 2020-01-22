@@ -282,13 +282,16 @@ mkdir -p batch/task
 
 Create cloud formation file `amplify/backend/batch/task/template.json` using https://aws.amazon.com/cloudformation/getting-started/ as a guide and https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html as a reference for the different resources. 
 
-Batch job settings you might want to change in `amplify/backend/batch/task/template.json:Resources:ComputeEnvironment:ComputeResources`:
-* InstanceTypes, defaults to optimal, but can be changed to for example only run `p2.family` instances to get only gpu vms.
-* Desired number of vcpus (DesiredvCpus), defaults to 0 which means no vm will be kept running when queue is empty.
+Batch job settings you might want to change in `amplify/backend/batch/task/template.json`:
+* Resources:ComputeEnvironment:ComputeResources:InstanceTypes, defaults to optimal, but can be changed to for example only run `p2.family` instances to get only gpu vms.
+* Desired number of vcpus (Resources:ComputeEnvironment:ComputeResources:DesiredvCpus), defaults to 0 which means no vm will be kept running when queue is empty.
+* change Resources:BatchJobPolicy resource to give the Docker container access to other AWS resources
 In `amplify/backend/batch/task/parameters.json`:
-* Docker image name
+* taskImageName, Docker image name
 * security group, goto [EC2 console](https://eu-central-1.console.aws.amazon.com/ec2/v2/home?region=eu-central-1#SecurityGroups:sort=groupId) to find your security group (adjust url to your region)
 * subnets, goto [VPC console](https://eu-central-1.console.aws.amazon.com/vpc/home#subnets:sort=SubnetId) to find your subnets (adjust url to your region)
+* taskMemory, memory in Mb for container
+* taskVcpus, number of vCpus for container
 
 TODO decide should cf create or hardcode for batch job:
 
@@ -311,7 +314,6 @@ Current Environment: master
 Create batch resources in cloud
 ```
 amplify push
-
 ```
 
 ### Add Docker image
@@ -329,13 +331,14 @@ Job should fetch and update something from DynamoDB.
 TODO decide graphql types for job
 ```graphql
 type Description {
-
+  id: ID!
 }
 
 type Job {
-  id
+  id: ID!
   status
   result
+  description @connection
 }
 
 ```

@@ -4,5 +4,8 @@
         "subnet-4e310c34",
         "subnet-bdc73ad6"
     ],
-    "taskComputeEnvironmentSecurityGroupId": "sg-406f852a"
+    "taskComputeEnvironmentSecurityGroupId": "sg-406f852a",
+    "taskImageName": "nlesc-hello-task",
+    "taskVcpus": 4,
+    "taskMemory": 4096
 }
