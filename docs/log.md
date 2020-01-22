@@ -318,13 +318,30 @@ amplify push
 
 ### Add Docker image
 
-The AWS Batch job definition has a Docker image.
+The AWS Batch job definition has a Docker image. The Dockerfile is in `amplify/backend/batch/task/src` directory.
 
-Create a Docker repository on AWS ECR using cloud formation template and push an image to it.
+To build and push see View push commands popup on [AWS Container Repository](https://eu-central-1.console.aws.amazon.com/ecr/repositories/nlesc-hello-task-master/?region=eu-central-1)
 
-Job should fetch and update something from DynamoDB.
+For example
+```
+$(aws ecr get-login --no-include-email --region eu-central-1)
+docker build -t nlesc-hello-task-master .
+docker tag nlesc-hello-task-master:latest <account id>.dkr.ecr.eu-central-1.amazonaws.com/nlesc-hello-task-master:latest
+docker push <account id>.dkr.ecr.eu-central-1.amazonaws.com/nlesc-hello-task-master:latest
+```
 
 ### Submit job from AWS console
+
+1. Goto https://eu-central-1.console.aws.amazon.com/batch/home?region=eu-central-1#/jobs
+2. Press `Submit job`
+3. Fill job name
+4. Select `nlesc-task-jobdefinition-master` as job definition
+5. Select `nlesc-jobqueue-master` as job queue
+6. Add Parameter called `jobdescriptionid`
+7. Set vCpus==1 and memory==512
+8. Press `Submit job`
+9. In console follow progress
+10. Once completed goto [Cloudwatch batch job logs](https://eu-central-1.console.aws.amazon.com/cloudwatch/home?region=eu-central-1#logStream:group=/aws/batch/job) to see the stdout/stderr
 
 ### Add job model to graphql
 
@@ -342,6 +359,10 @@ type Job {
 }
 
 ```
+
+### Adjust Docker image to talk to appsync/dynomdb
+
+Job should fetch and update something from DynamoDB.
 
 ### Add job submit function lambda
 

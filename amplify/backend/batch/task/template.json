@@ -399,7 +399,7 @@
                         ]
                     },
                     "Command": [
-                        "Ref::jobdesriptionid"
+                        "Ref::jobdescriptionid"
                     ],
                     "JobRoleArn": {
                         "Ref": "BatchJobRole"
