@@ -452,7 +452,7 @@ Test with AWS AppSync console with the following query
    cancelJob(jobid: "4b57218f-6364-49f3-a742-340a82593bd4")
  }
 ```
-Check in DynamodDB if job has been cancelled
+Check in AWS Batch console if job has been cancelled
 
 ### Add job listen function lambda
 
@@ -463,7 +463,14 @@ After function body and permission have been set push again
 amplify push
 ```
 
+Submit a new job and check in DynamoDB if job status has been updated (aka not SUBMITTED).
+
 ### Add job functionality to React app
+
+* [ ] CRUD for job descriptions
+* [ ] List of jobs with status and result
+* [ ] Button to cancel active job
+* [ ] submit job using existing job description
 
 ### Add authorization to Graphql models and functions
 
