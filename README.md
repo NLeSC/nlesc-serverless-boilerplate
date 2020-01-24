@@ -5,6 +5,8 @@
 The web application was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 The web application uses [AWS AppSync](https://aws.amazon.com/appsync/) and [Amplify](https://aws-amplify.github.io/docs/) to setup and run infrastructure.
 
+It uses [AWS Batch](https://aws.amazon.com/batch/) to submit a Docker image as a job.
+
 ## Frontend
 
 ### `yarn start`
