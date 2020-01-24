@@ -60,7 +60,8 @@ exports.handler = async (event, context) => {
         TableName: job_table,
         Item: { 
             id: {S: jobId },
-            jobDescriptionID: {S: jobdescription_id},
+            owner: {S: currentUser},
+            jobDescriptionId: {S: jobdescription_id},
             status
         },
     }).promise();

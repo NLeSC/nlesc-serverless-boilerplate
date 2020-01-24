@@ -470,13 +470,13 @@ Add auth and owner fields to graphql.
 Check React app still works 
 Check job submissions from console still works.
 
->>> # Done till here
-
 ### Add job functionality to React app
 
 * [ ] CRUD for job descriptions
 * [ ] List of jobs with status and result
 * [ ] Button to cancel active job
 * [ ] submit job using existing job description
+
+>>> # Done till here
 
 ### Add S3 bucket for input/output files for a computation

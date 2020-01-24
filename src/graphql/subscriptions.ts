@@ -46,7 +46,6 @@ export const onCreateJobDescription = `subscription OnCreateJobDescription($owne
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -68,7 +67,6 @@ export const onUpdateJobDescription = `subscription OnUpdateJobDescription($owne
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -90,7 +88,6 @@ export const onDeleteJobDescription = `subscription OnDeleteJobDescription($owne
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -119,7 +116,6 @@ export const onCreateJob = `subscription OnCreateJob {
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {
@@ -154,7 +150,6 @@ export const onUpdateJob = `subscription OnUpdateJob {
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {
@@ -189,7 +184,6 @@ export const onDeleteJob = `subscription OnDeleteJob {
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {

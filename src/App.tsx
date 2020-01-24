@@ -11,6 +11,7 @@ import './App.css';
 
 import { listTodos } from './graphql/queries';
 import { ITodo, Todo } from './Todo';
+import { JobDescriptions } from './JobDescriptions';
 
 // Configure Amplify
 Auth.configure(awsconfig);
@@ -41,10 +42,14 @@ function App() {
       <button onClick={createNewTodo}>Add Todo</button>
       <ul>
         {todos.length > 0 ?
-          todos.map((todo) => <Todo key={todo.id!} todo={todo}/>) :
+          todos.map((todo) => <Todo key={todo.id!} todo={todo} />) :
           <p>Add some todos!</p>
         }
       </ul>
+      <div>
+        <h2>Jobs adminstration</h2>
+        <JobDescriptions />
+      </div>
     </div>
   );
 }

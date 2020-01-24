@@ -41,7 +41,6 @@ export const getJobDescription = `query GetJobDescription($id: ID!) {
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -92,7 +91,6 @@ export const getJob = `query GetJob($id: ID!) {
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {
@@ -128,7 +126,6 @@ export const listJobs = `query ListJobs($filter: ModelJobFilterInput, $limit: In
       result {
         output
       }
-      jobDescriptionID
       description {
         id
         owner

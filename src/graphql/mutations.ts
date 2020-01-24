@@ -70,7 +70,6 @@ export const createJobDescription = `mutation CreateJobDescription(
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -95,7 +94,6 @@ export const updateJobDescription = `mutation UpdateJobDescription(
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -120,7 +118,6 @@ export const deleteJobDescription = `mutation DeleteJobDescription(
     jobs {
       items {
         id
-        jobDescriptionID
         owner
         createdAt
         updatedAt
@@ -152,7 +149,6 @@ export const createJob = `mutation CreateJob(
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {
@@ -190,7 +186,6 @@ export const updateJob = `mutation UpdateJob(
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {
@@ -228,7 +223,6 @@ export const deleteJob = `mutation DeleteJob(
     result {
       output
     }
-    jobDescriptionID
     description {
       id
       payload {

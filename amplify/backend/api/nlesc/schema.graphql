@@ -17,8 +17,8 @@ type Todo
   description: String
   completed: Boolean
   owner: String
-  createdAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
-  updatedAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 type JobDescription
@@ -29,10 +29,10 @@ type JobDescription
   ]) {
   id: ID!
   payload: JobPayload
-  jobs: [Job] @connection(fields: ["id"])
+  jobs: [Job] @connection(name: "JobDescriptionJob")
   owner: String
-  createdAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
-  updatedAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 # Customizing the jobs description payload should be done on this type
@@ -49,11 +49,10 @@ type Job
   id: ID!
   status: JobStatus
   result: JobResult
-  jobDescriptionID: ID!
-  description: JobDescription @connection(fields: ["jobDescriptionID"])
+  description: JobDescription @connection(name: "JobDescriptionJob")
   owner: String
-  createdAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
-  updatedAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 enum JobState {

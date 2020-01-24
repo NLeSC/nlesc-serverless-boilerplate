@@ -5,7 +5,7 @@ export type CreateTodoInput = {
   id?: string | null,
   name: string,
   description?: string | null,
-  completed: boolean,
+  completed?: boolean | null,
   owner?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
@@ -119,10 +119,10 @@ export type CreateJobInput = {
   id?: string | null,
   status?: JobStatusInput | null,
   result?: JobResultInput | null,
-  jobDescriptionID: string,
   owner?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
+  jobDescriptionId?: string | null,
 };
 
 export type JobStatusInput = {
@@ -153,7 +153,6 @@ export type JobResultInput = {
 };
 
 export type ModelJobConditionInput = {
-  jobDescriptionID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelJobConditionInput | null > | null,
@@ -161,30 +160,14 @@ export type ModelJobConditionInput = {
   not?: ModelJobConditionInput | null,
 };
 
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
 export type UpdateJobInput = {
   id: string,
   status?: JobStatusInput | null,
   result?: JobResultInput | null,
-  jobDescriptionID?: string | null,
   owner?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
+  jobDescriptionId?: string | null,
 };
 
 export type DeleteJobInput = {
@@ -204,6 +187,22 @@ export type ModelTodoFilterInput = {
   not?: ModelTodoFilterInput | null,
 };
 
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
 export type ModelJobDescriptionFilterInput = {
   id?: ModelIDInput | null,
   owner?: ModelStringInput | null,
@@ -216,7 +215,6 @@ export type ModelJobDescriptionFilterInput = {
 
 export type ModelJobFilterInput = {
   id?: ModelIDInput | null,
-  jobDescriptionID?: ModelIDInput | null,
   owner?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -260,7 +258,7 @@ export type CreateTodoMutation = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -278,7 +276,7 @@ export type UpdateTodoMutation = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -296,7 +294,7 @@ export type DeleteTodoMutation = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -321,7 +319,6 @@ export type CreateJobDescriptionMutation = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -352,7 +349,6 @@ export type UpdateJobDescriptionMutation = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -383,7 +379,6 @@ export type DeleteJobDescriptionMutation = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -420,7 +415,6 @@ export type CreateJobMutation = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
@@ -466,7 +460,6 @@ export type UpdateJobMutation = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
@@ -512,7 +505,6 @@ export type DeleteJobMutation = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
@@ -544,7 +536,7 @@ export type GetTodoQuery = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -565,7 +557,7 @@ export type ListTodosQuery = {
       id: string,
       name: string,
       description: string | null,
-      completed: boolean,
+      completed: boolean | null,
       owner: string | null,
       createdAt: string | null,
       updatedAt: string | null,
@@ -591,7 +583,6 @@ export type GetJobDescriptionQuery = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -655,7 +646,6 @@ export type GetJobQuery = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
@@ -704,7 +694,6 @@ export type ListJobsQuery = {
         __typename: "JobResult",
         output: string | null,
       } | null,
-      jobDescriptionID: string,
       description:  {
         __typename: "JobDescription",
         id: string,
@@ -730,7 +719,7 @@ export type OnCreateTodoSubscription = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -747,7 +736,7 @@ export type OnUpdateTodoSubscription = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -764,7 +753,7 @@ export type OnDeleteTodoSubscription = {
     id: string,
     name: string,
     description: string | null,
-    completed: boolean,
+    completed: boolean | null,
     owner: string | null,
     createdAt: string | null,
     updatedAt: string | null,
@@ -788,7 +777,6 @@ export type OnCreateJobDescriptionSubscription = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -818,7 +806,6 @@ export type OnUpdateJobDescriptionSubscription = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -848,7 +835,6 @@ export type OnDeleteJobDescriptionSubscription = {
       items:  Array< {
         __typename: "Job",
         id: string,
-        jobDescriptionID: string,
         owner: string | null,
         createdAt: string | null,
         updatedAt: string | null,
@@ -880,7 +866,6 @@ export type OnCreateJobSubscription = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
@@ -921,7 +906,6 @@ export type OnUpdateJobSubscription = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
@@ -962,7 +946,6 @@ export type OnDeleteJobSubscription = {
       __typename: "JobResult",
       output: string | null,
     } | null,
-    jobDescriptionID: string,
     description:  {
       __typename: "JobDescription",
       id: string,
