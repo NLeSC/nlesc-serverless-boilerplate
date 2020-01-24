@@ -472,11 +472,7 @@ Check job submissions from console still works.
 
 ### Add job functionality to React app
 
-* [ ] CRUD for job descriptions
-* [ ] List of jobs with status and result
-* [ ] Button to cancel active job
-* [ ] submit job using existing job description
-
->>> # Done till here
-
-### Add S3 bucket for input/output files for a computation
+* [x] CRUD for job descriptions
+* [x] List of jobs with status and result
+* [x] Button to cancel active job
+* [x] submit job using existing job description
