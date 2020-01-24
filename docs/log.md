@@ -292,9 +292,6 @@ In `amplify/backend/batch/task/parameters.json`:
 * subnets, goto [VPC console](https://eu-central-1.console.aws.amazon.com/vpc/home#subnets:sort=SubnetId) to find your subnets (adjust url to your region)
 * taskMemory, memory in Mb for container
 * taskVcpus, number of vCpus for container
-
-TODO decide should cf create or hardcode for batch job:
-
 * service role https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html
 * instance role https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html
 
