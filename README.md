@@ -97,7 +97,7 @@ amplify push
 amplify publish
 ```
 
-The url wher the application is running will be printed to screen.
+The url where the application is running will be printed to screen.
 
 After amplify you need to
 1. Build & push you need to push the Docker image (see `amplify/backend/batch/task/`)
