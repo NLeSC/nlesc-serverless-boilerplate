@@ -17,13 +17,17 @@ interface IProps {
     description: IJobDescription
 }
 
+const border = {
+    border: 'solid'
+}
+
 export const JobDescription = ({ description }: IProps) => {
     async function submit() {
         await API.graphql(graphqlOperation(submitJob, { jobdescriptionid: description.id }));
     }
 
     return (
-        <li>
+        <li style={border}>
             <p>ID: {description.id}</p>
             <p>Payload: {JSON.stringify(description.payload)}
             </p>

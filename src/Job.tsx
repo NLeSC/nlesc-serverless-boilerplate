@@ -30,13 +30,17 @@ interface IProps {
 
 const CANCELABLE = new Set([JobState.SUBMITTED, JobState.PENDING, JobState.RUNNABLE, JobState.STARTING, JobState.RUNNING]);
 
+const border = {
+    border: 'solid'
+}
+
 export const Job = ({job}: IProps) => {
     const cancelSubmittedJob = async () => {
         await API.graphql(graphqlOperation(cancelJob, {jobid: job.id}));
     }
     
     return (
-        <li>
+        <li style={border}>
             <p>Job: {job.id}</p>
             <p>State: {job.status.state}</p>
             <p>Submitted at: {job.status.submittedAt}</p>
