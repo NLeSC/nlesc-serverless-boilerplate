@@ -83,3 +83,19 @@ To start when there are no local or cloud amplify resources (not the case for th
 amplify init
 ```
 The amplify resources that we made are logged in [docs/log.md](docs/log.md)
+
+
+### To deploy services
+
+Before amplify push you need to correct in subnet and security group in `amplify/backend/batch/task/parameters.json`.
+
+```sh
+# Deploy backend
+amplify push
+# Deploy frontend
+amplify publish
+```
+
+The url wher the application is running will be printed to screen.
+
+After amplify push you need to push the Docker image and create users in Cognito console.
