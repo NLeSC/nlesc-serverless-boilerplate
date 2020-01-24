@@ -7,6 +7,9 @@ export const getTodo = `query GetTodo($id: ID!) {
     name
     description
     completed
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -21,6 +24,9 @@ export const listTodos = `query ListTodos(
       name
       description
       completed
+      owner
+      createdAt
+      updatedAt
     }
     nextToken
   }
@@ -36,9 +42,15 @@ export const getJobDescription = `query GetJobDescription($id: ID!) {
       items {
         id
         jobDescriptionID
+        owner
+        createdAt
+        updatedAt
       }
       nextToken
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -56,6 +68,9 @@ export const listJobDescriptions = `query ListJobDescriptions(
       jobs {
         nextToken
       }
+      owner
+      createdAt
+      updatedAt
     }
     nextToken
   }
@@ -86,7 +101,13 @@ export const getJob = `query GetJob($id: ID!) {
       jobs {
         nextToken
       }
+      owner
+      createdAt
+      updatedAt
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -110,7 +131,13 @@ export const listJobs = `query ListJobs($filter: ModelJobFilterInput, $limit: In
       jobDescriptionID
       description {
         id
+        owner
+        createdAt
+        updatedAt
       }
+      owner
+      createdAt
+      updatedAt
     }
     nextToken
   }

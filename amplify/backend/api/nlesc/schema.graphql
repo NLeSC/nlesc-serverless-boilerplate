@@ -6,17 +6,33 @@ type Mutation {
   cancelJob(jobid: ID!): ID @function(name: "nlesc-jobcancel-${env}")
 }
 
-type Todo @model {
+type Todo
+  @model
+  @auth(rules: [
+    { allow: owner },
+    { allow: groups, groups: ["admin"] }
+  ]) {
   id: ID!
   name: String!
   description: String
-  completed: Boolean!
+  completed: Boolean
+  owner: String
+  createdAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
+  updatedAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
 }
 
-type JobDescription @model {
+type JobDescription
+  @model
+  @auth(rules: [
+    { allow: owner },
+    { allow: groups, groups: ["admin"] }
+  ]) {
   id: ID!
   payload: JobPayload
   jobs: [Job] @connection(fields: ["id"])
+  owner: String
+  createdAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
+  updatedAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
 }
 
 # Customizing the jobs description payload should be done on this type
@@ -24,12 +40,20 @@ type JobPayload {
   count: Int!
 }
 
-type Job @model {
+type Job
+  @model
+  @auth(rules: [
+    { allow: owner, operations: [read] },
+    { allow: groups, groups: ["admin"], operations: [read] }
+  ]) {
   id: ID!
   status: JobStatus
   result: JobResult
   jobDescriptionID: ID!
   description: JobDescription @connection(fields: ["jobDescriptionID"])
+  owner: String
+  createdAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
+  updatedAt: AWSDateTime @auth(rules: [{ allow: owner, operations: [read] }])
 }
 
 enum JobState {

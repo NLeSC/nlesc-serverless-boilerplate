@@ -462,24 +462,15 @@ amplify push
 
 Submit a new job and check in DynamoDB if job status has been updated (aka not SUBMITTED).
 
->>> # Done till here
 
 ### Add authorization to Graphql models and functions/docker
 
-Add auth and owner fields to graphql
-```
-@auth (
-  rules: [
-    { allow: owner },
-    { allow: private, provider: iam, operations: [read] }
-  ]
-)
-```
+Add auth and owner fields to graphql.
 
 Check React app still works 
-Check job submissions from console still warks
+Check job submissions from console still works.
 
-### Use api instead of dynamodb to update db
+>>> # Done till here
 
 ### Add job functionality to React app
 

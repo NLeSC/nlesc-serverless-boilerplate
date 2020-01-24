@@ -18,7 +18,7 @@ API.configure(awsconfig);
 PubSub.configure(awsconfig);
 
 async function createNewTodo() {
-  const todo = { name: "Use AWS AppSync", description: "Realtime and Offline", completed: false };
+  const todo = { name: "Use AWS AppSync", description: "Realtime and Offline" };
   await API.graphql(graphqlOperation(createTodo, { input: todo }));
 }
 

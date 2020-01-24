@@ -6,12 +6,17 @@ export type CreateTodoInput = {
   name: string,
   description?: string | null,
   completed: boolean,
+  owner?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelTodoConditionInput = {
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
   completed?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelTodoConditionInput | null > | null,
   or?: Array< ModelTodoConditionInput | null > | null,
   not?: ModelTodoConditionInput | null,
@@ -69,6 +74,9 @@ export type UpdateTodoInput = {
   name?: string | null,
   description?: string | null,
   completed?: boolean | null,
+  owner?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteTodoInput = {
@@ -78,6 +86,9 @@ export type DeleteTodoInput = {
 export type CreateJobDescriptionInput = {
   id?: string | null,
   payload?: JobPayloadInput | null,
+  owner?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type JobPayloadInput = {
@@ -85,6 +96,8 @@ export type JobPayloadInput = {
 };
 
 export type ModelJobDescriptionConditionInput = {
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelJobDescriptionConditionInput | null > | null,
   or?: Array< ModelJobDescriptionConditionInput | null > | null,
   not?: ModelJobDescriptionConditionInput | null,
@@ -93,6 +106,9 @@ export type ModelJobDescriptionConditionInput = {
 export type UpdateJobDescriptionInput = {
   id: string,
   payload?: JobPayloadInput | null,
+  owner?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteJobDescriptionInput = {
@@ -104,6 +120,9 @@ export type CreateJobInput = {
   status?: JobStatusInput | null,
   result?: JobResultInput | null,
   jobDescriptionID: string,
+  owner?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type JobStatusInput = {
@@ -135,6 +154,8 @@ export type JobResultInput = {
 
 export type ModelJobConditionInput = {
   jobDescriptionID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelJobConditionInput | null > | null,
   or?: Array< ModelJobConditionInput | null > | null,
   not?: ModelJobConditionInput | null,
@@ -161,6 +182,9 @@ export type UpdateJobInput = {
   status?: JobStatusInput | null,
   result?: JobResultInput | null,
   jobDescriptionID?: string | null,
+  owner?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteJobInput = {
@@ -172,6 +196,9 @@ export type ModelTodoFilterInput = {
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
   completed?: ModelBooleanInput | null,
+  owner?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelTodoFilterInput | null > | null,
   or?: Array< ModelTodoFilterInput | null > | null,
   not?: ModelTodoFilterInput | null,
@@ -179,6 +206,9 @@ export type ModelTodoFilterInput = {
 
 export type ModelJobDescriptionFilterInput = {
   id?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelJobDescriptionFilterInput | null > | null,
   or?: Array< ModelJobDescriptionFilterInput | null > | null,
   not?: ModelJobDescriptionFilterInput | null,
@@ -187,6 +217,9 @@ export type ModelJobDescriptionFilterInput = {
 export type ModelJobFilterInput = {
   id?: ModelIDInput | null,
   jobDescriptionID?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelJobFilterInput | null > | null,
   or?: Array< ModelJobFilterInput | null > | null,
   not?: ModelJobFilterInput | null,
@@ -228,6 +261,9 @@ export type CreateTodoMutation = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -243,6 +279,9 @@ export type UpdateTodoMutation = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -258,6 +297,9 @@ export type DeleteTodoMutation = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -280,9 +322,15 @@ export type CreateJobDescriptionMutation = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -305,9 +353,15 @@ export type UpdateJobDescriptionMutation = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -330,9 +384,15 @@ export type DeleteJobDescriptionMutation = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -372,7 +432,13 @@ export type CreateJobMutation = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -412,7 +478,13 @@ export type UpdateJobMutation = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -452,7 +524,13 @@ export type DeleteJobMutation = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -467,6 +545,9 @@ export type GetTodoQuery = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -485,6 +566,9 @@ export type ListTodosQuery = {
       name: string,
       description: string | null,
       completed: boolean,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -508,9 +592,15 @@ export type GetJobDescriptionQuery = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -534,6 +624,9 @@ export type ListJobDescriptionsQuery = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -574,7 +667,13 @@ export type GetJobQuery = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -609,10 +708,20 @@ export type ListJobsQuery = {
       description:  {
         __typename: "JobDescription",
         id: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
+};
+
+export type OnCreateTodoSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnCreateTodoSubscription = {
@@ -622,7 +731,14 @@ export type OnCreateTodoSubscription = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
+};
+
+export type OnUpdateTodoSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnUpdateTodoSubscription = {
@@ -632,7 +748,14 @@ export type OnUpdateTodoSubscription = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
+};
+
+export type OnDeleteTodoSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnDeleteTodoSubscription = {
@@ -642,7 +765,14 @@ export type OnDeleteTodoSubscription = {
     name: string,
     description: string | null,
     completed: boolean,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
+};
+
+export type OnCreateJobDescriptionSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnCreateJobDescriptionSubscription = {
@@ -659,10 +789,20 @@ export type OnCreateJobDescriptionSubscription = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
+};
+
+export type OnUpdateJobDescriptionSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnUpdateJobDescriptionSubscription = {
@@ -679,10 +819,20 @@ export type OnUpdateJobDescriptionSubscription = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
+};
+
+export type OnDeleteJobDescriptionSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnDeleteJobDescriptionSubscription = {
@@ -699,9 +849,15 @@ export type OnDeleteJobDescriptionSubscription = {
         __typename: "Job",
         id: string,
         jobDescriptionID: string,
+        owner: string | null,
+        createdAt: string | null,
+        updatedAt: string | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -736,7 +892,13 @@ export type OnCreateJobSubscription = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -771,7 +933,13 @@ export type OnUpdateJobSubscription = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };
 
@@ -806,6 +974,12 @@ export type OnDeleteJobSubscription = {
         __typename: "ModelJobConnection",
         nextToken: string | null,
       } | null,
+      owner: string | null,
+      createdAt: string | null,
+      updatedAt: string | null,
     } | null,
+    owner: string | null,
+    createdAt: string | null,
+    updatedAt: string | null,
   } | null,
 };

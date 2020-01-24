@@ -22,6 +22,9 @@ export const createTodo = `mutation CreateTodo(
     name
     description
     completed
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -34,6 +37,9 @@ export const updateTodo = `mutation UpdateTodo(
     name
     description
     completed
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -46,6 +52,9 @@ export const deleteTodo = `mutation DeleteTodo(
     name
     description
     completed
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -62,9 +71,15 @@ export const createJobDescription = `mutation CreateJobDescription(
       items {
         id
         jobDescriptionID
+        owner
+        createdAt
+        updatedAt
       }
       nextToken
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -81,9 +96,15 @@ export const updateJobDescription = `mutation UpdateJobDescription(
       items {
         id
         jobDescriptionID
+        owner
+        createdAt
+        updatedAt
       }
       nextToken
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -100,9 +121,15 @@ export const deleteJobDescription = `mutation DeleteJobDescription(
       items {
         id
         jobDescriptionID
+        owner
+        createdAt
+        updatedAt
       }
       nextToken
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -134,7 +161,13 @@ export const createJob = `mutation CreateJob(
       jobs {
         nextToken
       }
+      owner
+      createdAt
+      updatedAt
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -166,7 +199,13 @@ export const updateJob = `mutation UpdateJob(
       jobs {
         nextToken
       }
+      owner
+      createdAt
+      updatedAt
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
@@ -198,7 +237,13 @@ export const deleteJob = `mutation DeleteJob(
       jobs {
         nextToken
       }
+      owner
+      createdAt
+      updatedAt
     }
+    owner
+    createdAt
+    updatedAt
   }
 }
 `;
