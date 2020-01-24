@@ -87,7 +87,8 @@ The amplify resources that we made are logged in [docs/log.md](docs/log.md)
 
 ### To deploy services
 
-Before amplify push you need to correct in subnet and security group in `amplify/backend/batch/task/parameters.json`.
+Before amplify push you need to 
+1. correct in subnet and security group in `amplify/backend/batch/task/parameters.json`.
 
 ```sh
 # Deploy backend
@@ -98,4 +99,6 @@ amplify publish
 
 The url wher the application is running will be printed to screen.
 
-After amplify push you need to push the Docker image and create users in Cognito console.
+After amplify you need to
+1. Build & push you need to push the Docker image (see `amplify/backend/batch/task/`)
+2. Create users in [AWS Cognito console](https://eu-central-1.console.aws.amazon.com/cognito/home?region=eu-central-1).
