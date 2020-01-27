@@ -9,6 +9,8 @@ It uses [AWS Batch](https://aws.amazon.com/batch/) to submit a Docker image as a
 
 ## Frontend
 
+To have a interactive frontend the backend should first be setup.
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />
@@ -23,6 +25,26 @@ This will run tests of frontend code.
 Builds the app for production to the `build` folder.<br />
 
 ## Backend
+
+### Architecture
+
+* Uses Graphql to communicate between web browser and server
+* Uses AWS DynamoDB for persisting data
+* Uses AWS S3 for storing input/output data files
+* Uses AWS Cognito for authentication
+* Uses AWS S3 for deployment
+* Uses AWS S3 for hosting
+* Uses AWS Batch job, written in Python, to run a computation.
+* Uses AWS ECR to store Docker image for AWS Batch
+* Uses AWS lambda to submit a AWS Batch job
+* Uses AWS lambda to cancel a AWS Batch job
+* Uses AWS lambda to listen for a AWS Batch job state changes
+* Allows AWS Batch job to read/write to S3 and DynamoDB
+* Allows AWS lambda functions to read/write to S3 and DynamoDB
+
+[![Drawio diagram](docs/architecture.png)](docs/architecture.drawio)
+
+### Installation
 
 Requirements: 
 * nodejs, tested with v12.13.1
@@ -102,5 +124,5 @@ amplify publish
 The url where the application is running will be printed to screen.
 
 After amplify you need to
-1. Build & push you need to push the Docker image (see `amplify/backend/batch/task/`)
+1. Build & push the Docker image (see `amplify/backend/batch/task/` directory) which has the computation in it
 2. Create users in [AWS Cognito console](https://eu-central-1.console.aws.amazon.com/cognito/home?region=eu-central-1).
