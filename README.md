@@ -34,7 +34,7 @@ Builds the app for production to the `build` folder.<br />
 * Uses AWS Cognito for authentication
 * Uses AWS S3 for deployment
 * Uses AWS S3 for hosting
-* Uses AWS Batch job, written in Python, to run a computation.
+* Uses AWS Batch job, written in Python, to run a computation in a Docker container.
 * Uses AWS ECR to store Docker image for AWS Batch
 * Uses AWS lambda to submit a AWS Batch job
 * Uses AWS lambda to cancel a AWS Batch job
