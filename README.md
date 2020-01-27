@@ -1,5 +1,7 @@
 # NLeSC serverless boilerplate
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3628237.svg)](https://doi.org/10.5281/zenodo.3628237)
+
 ## What is it?
 
 The web application was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
